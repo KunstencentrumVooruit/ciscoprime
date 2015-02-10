@@ -29,6 +29,8 @@ class Client:
         return True
 
     def search_client(self, mac_or_ip_or_name):
+	# Set proper headers
+ 	headers = {"Accept":"application/json"}
         params = {
             'searchType': 'macOrIpOrName',
             'searchText': mac_or_ip_or_name,
@@ -40,3 +42,14 @@ class Client:
         }
         r = self.s.get(self.base + "searchClientAction.do", params=params)
         return r.json()['items']
+    def getAlarms(self, query):
+	# Set proper headers
+ 	headers = {"Accept":"application/json"}
+	params = {
+#		'acknowledgementStatus': 'true',
+		'severity': 'CRITICAL'
+	}
+	r = self.s.get(self.base + "api/v1/data/Alarms/", params=params, headers=headers)
+        #return r.json()['queryResponse']['entity'][0]['alarmsDTO']['message']
+        return r.json()
+
